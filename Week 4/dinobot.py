@@ -1,0 +1,26 @@
+import pyautogui
+import time
+from PIL import ImageGrab, ImageOps
+import numpy as np
+
+# Adjust these coordinates if needed using pyautogui.position()
+box = (340, 390, 390, 420)
+
+def is_obstacle(image):
+    gray = ImageOps.grayscale(image)
+    pixels = np.array(gray)
+    return np.any(pixels < 100)
+
+def jump():
+    pyautogui.keyDown("space")
+    time.sleep(0.05)
+    pyautogui.keyUp("space")
+
+print("Bot starting in 3 seconds...")
+time.sleep(3)
+
+while True:
+    image = ImageGrab.grab(box)
+    if is_obstacle(image):
+        jump()
+    time.sleep(0.01)
